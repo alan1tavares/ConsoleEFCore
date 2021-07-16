@@ -1,4 +1,4 @@
-namespace ConsoleEFCore.models
+namespace ConsoleEFCore.Models
 {
   public class Medico
   {
