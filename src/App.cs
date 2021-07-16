@@ -36,6 +36,9 @@ namespace ConsoleEFCore
           case 3:
             crud = new CrudConsultaView(new ConsultaRepository(), new PacienteRepository());
             break;
+          case 4:
+            crud = new CrudEnfermariaView(new EnfermariaRepository(), new MedicoRepository());
+            break;
           default:
             return;
         }

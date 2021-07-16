@@ -12,10 +12,14 @@ namespace ConsoleEFCore
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
       optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=hospital;User Id=postgres;Password=1234;");
+        // .EnableSensitiveDataLogging()
+        // .UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      modelBuilder.Entity<EnfermariaMedico>().HasKey(em => new { em.EnfermariaId, em.MedicoId });
+
       base.OnModelCreating(modelBuilder);
 
       Paciente paciente = new Paciente();
@@ -37,6 +41,17 @@ namespace ConsoleEFCore
       medico.Idade = 39;
       medico.Especialidade = "Clínico geral";
       modelBuilder.Entity<Medico>().HasData(medico);
+
+      Enfermaria enfermaria = new Enfermaria();
+      enfermaria.Id = 1;
+      enfermaria.Descricao = "Covid";
+      enfermaria.NumeroDeLeitos = 10;
+      modelBuilder.Entity<Enfermaria>().HasData(enfermaria);
+
+      EnfermariaMedico enfermariaMedico = new EnfermariaMedico();
+      enfermariaMedico.MedicoId = 1;
+      enfermariaMedico.EnfermariaId = 1;
+      modelBuilder.Entity<EnfermariaMedico>().HasData(enfermariaMedico);
     }
   }
 }
