@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ConsoleEFCore.Models;
 
 namespace ConsoleEFCore
 {
@@ -25,10 +26,11 @@ namespace ConsoleEFCore
         switch (entrada)
         {
           case 1:
-            GravarPaciente();
+            CadastrarPaciente();
             break;
           case 2:
-            Console.WriteLine("Não Implementado");
+            Console.WriteLine("Cadastrar Médico");
+            CadastrarMedico();
             break;
           case 3:
             Console.WriteLine("Não Implementado");
@@ -67,15 +69,15 @@ namespace ConsoleEFCore
 
     private static void ExibirMenu()
     {
-      Console.WriteLine("1- Gravar Paciente");
-      Console.WriteLine("2- Atualizar Paciente");
+      Console.WriteLine("1- Cadastrar Paciente");
+      Console.WriteLine("2- Cadastrar Médico");
       Console.WriteLine("3- Excluir Paciente");
       Console.WriteLine("4- Listar Pacientes");
       Console.WriteLine("5- Realizar Consulta");
       Console.WriteLine("6- Listar Pacientes");
     }
 
-    public static void GravarPaciente()
+    public static void CadastrarPaciente()
     {
       Console.WriteLine("1- Gravar Paciente");
 
@@ -96,6 +98,30 @@ namespace ConsoleEFCore
         context.SaveChanges();
       }
     }
+
+    private static void CadastrarMedico()
+    {
+      Console.WriteLine("2- Cadastrar Médico");
+
+      Medico medico = new Medico();
+
+      Console.WriteLine("Nome:");
+      medico.Nome = Console.ReadLine();
+
+      Console.WriteLine("Idade");
+      medico.Idade = Convert.ToInt32(Console.ReadLine());
+
+      Console.WriteLine("Especialidade");
+      medico.Especialidade = Console.ReadLine();
+
+      using (var context = new HospitalContext())
+      {
+        context.Medicos.Add(medico);
+        context.SaveChanges();
+      }
+    }
+
+
     public static void ListarPacientes()
     {
       using (var context = new HospitalContext())
@@ -149,7 +175,7 @@ namespace ConsoleEFCore
 
     private static void AtualizarPacientes()
     {
-      GravarPaciente();
+      CadastrarPaciente();
       using (var context = new HospitalContext())
       {
         Paciente paciente = context.Pacientes.First();

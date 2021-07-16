@@ -1,4 +1,4 @@
-namespace ConsoleEFCore
+namespace ConsoleEFCore.Models
 {
   public class Consulta
   {

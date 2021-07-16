@@ -1,5 +1,5 @@
+using ConsoleEFCore.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace ConsoleEFCore
 {
@@ -7,10 +7,10 @@ namespace ConsoleEFCore
   {
     public DbSet<Paciente> Pacientes { get; set; }
     public DbSet<Consulta> Consultas { get; set; }
+    public DbSet<Medico> Medicos { get; set; }
     public DbSet<Enfermaria> Enfermarias { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-      optionsBuilder.EnableSensitiveDataLogging();
       optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=hospital;User Id=postgres;Password=1234;");
     }
 
@@ -31,9 +31,12 @@ namespace ConsoleEFCore
       consulta.Diagnostico = "Ficar longe de formiga";
       modelBuilder.Entity<Consulta>().HasData(consulta);
 
-      Enfermaria enfermaria = new Enfermaria();
-      
-
+      Medico medico = new Medico();
+      medico.Id = 1;
+      medico.Nome = "Roberto Souza";
+      medico.Idade = 39;
+      medico.Especialidade = "Clínico geral";
+      modelBuilder.Entity<Medico>().HasData(medico);
     }
   }
 }
