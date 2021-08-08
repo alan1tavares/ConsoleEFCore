@@ -9,62 +9,7 @@ namespace ConsoleEFCore
   {
     static void Main(string[] args)
     {
-      Console.Clear();
-
-      Console.WriteLine("Bem vindo ao Hospital Lambda!!4");
-      Console.WriteLine("Fique a vontade para naver no nosso menu");
-
-      while (true)
-      {
-        ExibirMenu();
-        Console.WriteLine();
-
-        Console.WriteLine("Qual opção escolhida?");
-        var entrada = Convert.ToInt32(Console.ReadLine());
-        Console.Clear();
-
-        switch (entrada)
-        {
-          case 1:
-            CadastrarPaciente();
-            break;
-          case 2:
-            Console.WriteLine("Cadastrar Médico");
-            CadastrarMedico();
-            break;
-          case 3:
-            Console.WriteLine("Não Implementado");
-            break;
-          case 4:
-            Console.WriteLine("\nLista dos Pacientes");
-            ListarPacientes();
-            break;
-          case 5:
-            Console.WriteLine("Cadastrar Consulta\n");
-            ListarPacientes();
-            RealizarConsulta();
-            break;
-          case 6:
-            Console.WriteLine("Listar Consultas\n");
-            ListarConsultas();
-            break;
-
-          default:
-            return;
-        }
-
-        Console.WriteLine("\nEnter para voltar: ");
-        Console.Read();
-
-        Console.Clear();
-
-      }
-      AtualizarPacientes();
-      ListarPacientes();
-      ExluirPacientes();
-      ListarPacientes();
-
-      Console.WriteLine("Finish");
+      App.Executar();
     }
 
     private static void ExibirMenu()
