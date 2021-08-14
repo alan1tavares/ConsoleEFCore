@@ -9,7 +9,7 @@ namespace ConsoleEFCore.Models
     
     public override string ToString()
     {
-      return $"Id({Id}) - Id do Paciente({PacienteId}) - Idade({Diagnostico})";
+      return $"Id|Consulta({Id}) - Id|Paciente({PacienteId}) - Diagnostico({Diagnostico})";
     }
   }
 }

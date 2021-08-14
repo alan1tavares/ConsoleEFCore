@@ -4,9 +4,9 @@ using ConsoleEFCore.Models;
 
 namespace ConsoleEFCore.Repository
 {
-  public class PacienteRepository : IRepositorio<Paciente>
+  public class PacienteRepository : IRepository<Paciente>
   {
-    public IList<Paciente> GetPacientes()
+    public IList<Paciente> GetAll()
     {
       using (var context = new HospitalContext())
       {

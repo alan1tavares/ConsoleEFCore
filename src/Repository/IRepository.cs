@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace ConsoleEFCore.Repository
 {
-    public interface IRepositorio<Entidade>
+    public interface IRepository<Entidade>
     {
-        IList<Entidade> GetPacientes();
+        IList<Entidade> GetAll();
         Entidade GetById(int id);
         void Salvar(Entidade entidade);
         void Editar(Entidade entidade);

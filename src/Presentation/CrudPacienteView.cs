@@ -6,8 +6,8 @@ namespace ConsoleEFCore.Presentation
 {
   public class CrudPacienteView : CrudBaseView
   {
-    private IRepositorio<Paciente> _repositorio;
-    public CrudPacienteView(IRepositorio<Paciente> repositorio)
+    private IRepository<Paciente> _repositorio;
+    public CrudPacienteView(IRepository<Paciente> repositorio)
     {
       NomeDaEntidade = "Paciente";
       _repositorio = repositorio;
@@ -71,7 +71,7 @@ namespace ConsoleEFCore.Presentation
 
     private void ExibirTodosPacientes()
     {
-      foreach (var paciente in _repositorio.GetPacientes())
+      foreach (var paciente in _repositorio.GetAll())
         Console.WriteLine(paciente);
     }
   }
