@@ -30,6 +30,9 @@ namespace ConsoleEFCore
           case 1:
             crud = new CrudPacienteView(new PacienteRepository());
             break;
+          case 2:
+            crud = new CrudMedicoView(new MedicoRepository());
+            break;
           case 3:
             crud = new CrudConsultaView(new ConsultaRepository(), new PacienteRepository());
             break;
