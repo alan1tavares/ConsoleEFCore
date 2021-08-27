@@ -20,6 +20,10 @@ namespace ConsoleEFCore
     {
       modelBuilder.Entity<EnfermariaMedico>().HasKey(em => new { em.EnfermariaId, em.MedicoId });
 
+      modelBuilder.Entity<Endereco>().ToTable("Enderecos");
+      modelBuilder.Entity<Endereco>().Property<int>("PacienteId");
+      modelBuilder.Entity<Endereco>().HasKey("PacienteId");
+
       base.OnModelCreating(modelBuilder);
 
       Paciente paciente = new Paciente();
@@ -27,6 +31,7 @@ namespace ConsoleEFCore
       paciente.Nome = "Carlos Eduardo";
       paciente.Idade = 38;
       paciente.Alergias = "Abelha;Formiga";
+
       modelBuilder.Entity<Paciente>().HasData(paciente);
 
       Consulta consulta = new Consulta();
@@ -52,6 +57,13 @@ namespace ConsoleEFCore
       enfermariaMedico.MedicoId = 1;
       enfermariaMedico.EnfermariaId = 1;
       modelBuilder.Entity<EnfermariaMedico>().HasData(enfermariaMedico);
+
+      modelBuilder.Entity<Endereco>().HasData(new {
+        Logradouro = "Avenida X",
+        Numero = 304,
+        PacienteId = paciente.Id
+      });
+
     }
   }
 }
