@@ -27,6 +27,16 @@ namespace ConsoleEFCore.Presentation
       Console.WriteLine("Alergias");
       paciente.Alergias = Console.ReadLine();
 
+      Endereco endereco = new Endereco();
+      
+      Console.WriteLine("Logradouro");
+      endereco.Logradouro = Console.ReadLine();
+
+      Console.WriteLine("Numero");
+      endereco.Numero = Convert.ToInt32(Console.ReadLine());
+
+      paciente.Endereco = endereco;
+
       _repositorio.Salvar(paciente);
     }
 

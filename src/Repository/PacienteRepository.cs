@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ConsoleEFCore.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ConsoleEFCore.Repository
 {
@@ -10,7 +11,9 @@ namespace ConsoleEFCore.Repository
     {
       using (var context = new HospitalContext())
       {
-        return context.Pacientes.ToList();
+        return context.Pacientes
+          .Include(paciente => paciente.Endereco)
+          .ToList();
       }
     }
 
