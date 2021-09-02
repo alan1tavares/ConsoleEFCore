@@ -1,43 +1,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using ConsoleEFCore.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ConsoleEFCore.Repository
 {
-  public class ConsultaRepository : IRepository<Consulta>
+  public class UsuarioRepository : IRepository<Usuario>
   {
-    public IList<Consulta> GetAll()
+    public IList<Usuario> GetAll()
     {
       using (var context = new HospitalContext())
       {
-        return context.Consultas.ToList();
+        return context.Usuarios.ToList();
       }
     }
 
-    public Consulta GetById(object chave)
+    public Usuario GetById(object chave)
     {
-      Consulta consulta;
+      Usuario usuario;
       using (var context = new HospitalContext())
       {
-        consulta = context.Consultas.Find(chave);
+        usuario = context.Usuarios.Find(chave);
       }
-      return consulta;
+      return usuario;
     }
 
-    public void Salvar(Consulta entidade)
+    public void Salvar(Usuario entidade)
     {
       using (var context = new HospitalContext())
       {
-        context.Consultas.Add(entidade);
+        context.Usuarios.Add(entidade);
         context.SaveChanges();
       }
     }
 
-    public void Editar(Consulta entidade)
+    public void Editar(Usuario entidade)
     {
       using (var context = new HospitalContext())
       {
-        context.Consultas.Update(entidade);
+        context.Usuarios.Update(entidade);
         context.SaveChanges();
       }
     }
@@ -46,8 +47,8 @@ namespace ConsoleEFCore.Repository
     {
       using (var context = new HospitalContext())
       {
-        Consulta consulta = context.Consultas.Find(chave);
-        context.Consultas.Remove(consulta);
+        Usuario usuario = context.Usuarios.Find(chave);
+        context.Usuarios.Remove(usuario);
         context.SaveChanges();
       }
     }

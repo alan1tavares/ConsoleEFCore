@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 
 namespace ConsoleEFCore.Repository
-{
+{   
     public interface IRepository<Entidade>
     {
         IList<Entidade> GetAll();
-        Entidade GetById(int id);
+        Entidade GetById(object chave);
         void Salvar(Entidade entidade);
         void Editar(Entidade entidade);
-        void Excluir(int idEntidade);
+        void Excluir(object chave);
     }
 }

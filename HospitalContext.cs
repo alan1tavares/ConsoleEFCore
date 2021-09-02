@@ -1,14 +1,17 @@
 using ConsoleEFCore.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ConsoleEFCore.src.Utils;
 
 namespace ConsoleEFCore
 {
-  public class HospitalContext : DbContext
+  public class HospitalContext : IdentityDbContext
   {
     public DbSet<Paciente> Pacientes { get; set; }
     public DbSet<Consulta> Consultas { get; set; }
     public DbSet<Medico> Medicos { get; set; }
     public DbSet<Enfermaria> Enfermarias { get; set; }
+     public DbSet<Usuario> Usuarios { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
       optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=hospital;User Id=postgres;Password=1234;");
@@ -64,6 +67,10 @@ namespace ConsoleEFCore
         PacienteId = paciente.Id
       });
 
+      Usuario usuario = new Usuario();
+      usuario.UserName = "Alan";
+      usuario.PasswordHash = PassworldUtils.GetHash("123456");
+      modelBuilder.Entity<Usuario>().HasData(usuario);
     }
   }
 }
