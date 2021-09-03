@@ -3,15 +3,17 @@ using System;
 using ConsoleEFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ConsoleEFCore.Migrations
 {
     [DbContext(typeof(HospitalContext))]
-    partial class HospitalContextModelSnapshot : ModelSnapshot
+    [Migration("20210902023544_2.0")]
+    partial class _20
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,10 +247,6 @@ namespace ConsoleEFCore.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -299,8 +297,6 @@ namespace ConsoleEFCore.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -381,28 +377,6 @@ namespace ConsoleEFCore.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("ConsoleEFCore.Models.Usuario", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.HasDiscriminator().HasValue("Usuario");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "437bf7d3-3638-40f3-a41f-82bb41f89e50",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "f9dc88c0-1444-4ed5-8927-6190bbce18ed",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            PasswordHash = "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "b84e36a2-8151-439f-8a52-d421e19b6c81",
-                            TwoFactorEnabled = false,
-                            UserName = "Alan"
-                        });
                 });
 
             modelBuilder.Entity("ConsoleEFCore.Models.Consulta", b =>

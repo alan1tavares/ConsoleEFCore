@@ -18,12 +18,12 @@ namespace ConsoleEFCore.Repository
       }
     }
 
-    public Enfermaria GetById(int id)
+    public Enfermaria GetById(object chave)
     {
       Enfermaria enfermaria;
       using (var context = new HospitalContext())
       {
-        enfermaria = context.Enfermarias.Find(id);
+        enfermaria = context.Enfermarias.Find(chave);
       }
       return enfermaria;
     }
@@ -46,11 +46,11 @@ namespace ConsoleEFCore.Repository
       }
     }
 
-    public void Excluir(int idEntidade)
+    public void Excluir(object chave)
     {
       using (var context = new HospitalContext())
       {
-        Enfermaria enfermaria = context.Enfermarias.Find(idEntidade);
+        Enfermaria enfermaria = context.Enfermarias.Find(chave);
         context.Enfermarias.Remove(enfermaria);
         context.SaveChanges();
       }

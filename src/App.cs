@@ -19,6 +19,7 @@ namespace ConsoleEFCore
         Console.WriteLine("2- Médico");
         Console.WriteLine("3- Consulta");
         Console.WriteLine("4- Enfermaria");
+        Console.WriteLine("5- Usuário");
 
         Console.WriteLine("\nEscolha uma opção");
         int opcao;
@@ -39,13 +40,14 @@ namespace ConsoleEFCore
           case 4:
             crud = new CrudEnfermariaView(new EnfermariaRepository(), new MedicoRepository());
             break;
+          case 5:
+            crud = new CrudUsuarioView(new UsuarioRepository());
+            break;
           default:
             return;
         }
         crud.Executar();
-
       }
-
     }
   }
 }

@@ -17,12 +17,12 @@ namespace ConsoleEFCore.Repository
       }
     }
 
-    public Paciente GetById(int id)
+    public Paciente GetById(object chave)
     {
       Paciente paciente;
       using (var context = new HospitalContext())
       {
-        paciente = context.Pacientes.Find(id);
+        paciente = context.Pacientes.Find(chave);
       }
       return paciente;
     }
@@ -45,11 +45,11 @@ namespace ConsoleEFCore.Repository
       }
     }
 
-    public void Excluir(int idEntidade)
+    public void Excluir(object chave)
     {
       using (var context = new HospitalContext())
       {
-        Paciente paciente = context.Pacientes.Find(idEntidade);
+        Paciente paciente = context.Pacientes.Find(chave);
         context.Pacientes.Remove(paciente);
         context.SaveChanges();
       }
