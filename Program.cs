@@ -1,145 +1,78 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using ConsoleEFCore.Models;
-
+using ConsoleEFCore.Presentation;
+using ConsoleEFCore.Repository;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+  
 namespace ConsoleEFCore
 {
   class Program
   {
     static void Main(string[] args)
     {
-      App.Executar();
+      using IHost host = GetInstaciaHostBuilder(args).Build();
+      Start(host.Services);
     }
 
-    private static void ExibirMenu()
+    
+    private static IHostBuilder GetInstaciaHostBuilder(string[] args) =>
+      Host.CreateDefaultBuilder(args)
+        .ConfigureServices((hostBuilderContext, services) => ConfigureServices(services));
+
+    private static void ConfigureServices(IServiceCollection services) => services
+      .AddTransient<CrudPacienteView>()
+      .AddTransient<CrudMedicoView>()
+      .AddTransient<CrudConsultaView>()
+      .AddTransient<CrudEnfermariaView>()
+      .AddTransient<CrudUsuarioView>()
+      .AddTransient<IRepository<Paciente>, PacienteRepository>()
+      .AddTransient<IRepository<Medico>, MedicoRepository>()
+      .AddTransient<IRepository<Consulta>, ConsultaRepository>()
+      .AddTransient<IRepository<Enfermaria>, EnfermariaRepository>()
+      .AddTransient<IRepository<Usuario>, UsuarioRepository>();
+
+    private static void Start(IServiceProvider provider)
     {
-      Console.WriteLine("1- Cadastrar Paciente");
-      Console.WriteLine("2- Cadastrar Médico");
-      Console.WriteLine("3- Excluir Paciente");
-      Console.WriteLine("4- Listar Pacientes");
-      Console.WriteLine("5- Realizar Consulta");
-      Console.WriteLine("6- Listar Pacientes");
-    }
-
-    public static void CadastrarPaciente()
-    {
-      Console.WriteLine("1- Gravar Paciente");
-
-      Paciente paciente = new Paciente();
-
-      Console.WriteLine("Nome:");
-      paciente.Nome = Console.ReadLine();
-
-      Console.WriteLine("Idade");
-      paciente.Idade = Convert.ToInt32(Console.ReadLine());
-
-      Console.WriteLine("Alergias");
-      paciente.Alergias = Console.ReadLine();
-
-      using (var context = new HospitalContext())
+      while (true)
       {
-        context.Pacientes.Add(paciente);
-        context.SaveChanges();
-      }
-    }
+        Console.Clear();
 
-    private static void CadastrarMedico()
-    {
-      Console.WriteLine("2- Cadastrar Médico");
+        Console.WriteLine("Bem vindo ao Hospital Lambda!!");
+        Console.WriteLine("Fique a vontade para navegar no nosso menu");
 
-      Medico medico = new Medico();
+        Console.WriteLine("1- Paciente");
+        Console.WriteLine("2- Médico");
+        Console.WriteLine("3- Consulta");
+        Console.WriteLine("4- Enfermaria");
+        Console.WriteLine("5- Usuário");
 
-      Console.WriteLine("Nome:");
-      medico.Nome = Console.ReadLine();
+        Console.WriteLine("\nEscolha uma opção");
+        int opcao;
+        Int32.TryParse(Console.ReadLine(), out opcao);
 
-      Console.WriteLine("Idade");
-      medico.Idade = Convert.ToInt32(Console.ReadLine());
-
-      Console.WriteLine("Especialidade");
-      medico.Especialidade = Console.ReadLine();
-
-      using (var context = new HospitalContext())
-      {
-        context.Medicos.Add(medico);
-        context.SaveChanges();
-      }
-    }
-
-
-    public static void ListarPacientes()
-    {
-      using (var context = new HospitalContext())
-      {
-        IList<Paciente> pacientes = context.Pacientes.ToList();
-        foreach (var paciente in pacientes)
+        CrudBaseView crud;
+        switch (opcao)
         {
-          Console.WriteLine(paciente);
+          case 1:
+            crud = provider.GetService<CrudPacienteView>();
+            break;
+          case 2:
+            crud = provider.GetService<CrudMedicoView>();
+            break;
+          case 3:
+            crud = provider.GetService<CrudConsultaView>();
+            break;
+          case 4:
+            crud = provider.GetService<CrudEnfermariaView>();
+            break;
+          case 5:
+            crud = provider.GetService<CrudUsuarioView>();
+            break;
+          default:
+            return;
         }
-      }
-    }
-    private static void RealizarConsulta()
-    {
-      Consulta consulta = new Consulta();
-
-      Console.WriteLine("Id do paciente:");
-      var idDoPaciente = Convert.ToInt32(Console.ReadLine());
-      consulta.PacienteId = idDoPaciente;
-
-      Console.WriteLine("Diagnóstico:");
-      consulta.Diagnostico = Console.ReadLine();
-
-      using (var context = new HospitalContext())
-      {
-        context.Consultas.Add(consulta);
-        context.SaveChanges();
-      }
-    }
-
-    private static void ListarConsultas()
-    {
-      using (var context = new HospitalContext())
-      {
-        IList<Consulta> consultas = context.Consultas.ToList();
-        foreach (var consulta in consultas)
-        {
-          Console.WriteLine(consulta);
-        }
-      }
-    }
-
-    private static Paciente BuscarPaciente(int aIdDoPaciente)
-    {
-      Paciente paciente;
-      using (var context = new HospitalContext())
-      {
-        paciente = context.Pacientes.Find(aIdDoPaciente);
-      }
-      return paciente;
-    }
-
-    private static void AtualizarPacientes()
-    {
-      CadastrarPaciente();
-      using (var context = new HospitalContext())
-      {
-        Paciente paciente = context.Pacientes.First();
-        paciente.Nome = "Maria Silva";
-        context.Pacientes.Update(paciente);
-        context.SaveChanges();
-      }
-    }
-
-    private static void ExluirPacientes()
-    {
-      using (var context = new HospitalContext())
-      {
-        IList<Paciente> pacientes = context.Pacientes.ToList();
-        foreach (var paciente in pacientes)
-        {
-          context.Pacientes.Remove(paciente);
-        }
-        context.SaveChanges();
+        crud.Executar();
       }
     }
   }
