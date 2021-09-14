@@ -6,50 +6,30 @@ namespace ConsoleEFCore.Repository
 {
   public class ConsultaRepository : IRepository<Consulta>
   {
-    public IList<Consulta> GetAll()
-    {
-      using (var context = new HospitalContext())
-      {
-        return context.Consultas.ToList();
-      }
-    }
+    private HospitalContext _Context;
 
-    public Consulta GetById(object chave)
-    {
-      Consulta consulta;
-      using (var context = new HospitalContext())
-      {
-        consulta = context.Consultas.Find(chave);
-      }
-      return consulta;
-    }
+    public ConsultaRepository(HospitalContext context) => _Context = context;
+
+    public IList<Consulta> GetAll() => _Context.Consultas.ToList();
 
     public void Salvar(Consulta entidade)
     {
-      using (var context = new HospitalContext())
-      {
-        context.Consultas.Add(entidade);
-        context.SaveChanges();
-      }
+      _Context.Add(entidade);
+      _Context.SaveChanges();
     }
 
     public void Editar(Consulta entidade)
     {
-      using (var context = new HospitalContext())
-      {
-        context.Consultas.Update(entidade);
-        context.SaveChanges();
-      }
+      _Context.Update(entidade);
+      _Context.SaveChanges();
     }
 
     public void Excluir(object chave)
     {
-      using (var context = new HospitalContext())
-      {
-        Consulta consulta = context.Consultas.Find(chave);
-        context.Consultas.Remove(consulta);
-        context.SaveChanges();
-      }
+      _Context.Consultas.Remove(GetById(chave));
+      _Context.SaveChanges();
     }
+
+    public Consulta GetById(object chave) => _Context.Find<Consulta>(chave);
   }
 }

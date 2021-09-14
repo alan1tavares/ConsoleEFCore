@@ -7,50 +7,30 @@ namespace ConsoleEFCore.Repository
 {
   public class UsuarioRepository : IRepository<Usuario>
   {
-    public IList<Usuario> GetAll()
-    {
-      using (var context = new HospitalContext())
-      {
-        return context.Usuarios.ToList();
-      }
-    }
+    private HospitalContext _Context;
 
-    public Usuario GetById(object chave)
-    {
-      Usuario usuario;
-      using (var context = new HospitalContext())
-      {
-        usuario = context.Usuarios.Find(chave);
-      }
-      return usuario;
-    }
+    public UsuarioRepository(HospitalContext context) => _Context = context;
+
+    public IList<Usuario> GetAll() => _Context.Usuarios.ToList();
 
     public void Salvar(Usuario entidade)
     {
-      using (var context = new HospitalContext())
-      {
-        context.Usuarios.Add(entidade);
-        context.SaveChanges();
-      }
+      _Context.Add(entidade);
+      _Context.SaveChanges();
     }
 
     public void Editar(Usuario entidade)
     {
-      using (var context = new HospitalContext())
-      {
-        context.Usuarios.Update(entidade);
-        context.SaveChanges();
-      }
+      _Context.Update(entidade);
+      _Context.SaveChanges();
     }
 
     public void Excluir(object chave)
     {
-      using (var context = new HospitalContext())
-      {
-        Usuario usuario = context.Usuarios.Find(chave);
-        context.Usuarios.Remove(usuario);
-        context.SaveChanges();
-      }
+      _Context.Usuarios.Remove(GetById(chave));
+      _Context.SaveChanges();
     }
+
+    public Usuario GetById(object chave) => _Context.Find<Usuario>(chave);
   }
 }

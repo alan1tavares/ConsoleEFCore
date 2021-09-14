@@ -21,6 +21,7 @@ namespace ConsoleEFCore
         .ConfigureServices((hostBuilderContext, services) => ConfigureServices(services));
 
     private static void ConfigureServices(IServiceCollection services) => services
+      .AddDbContext<HospitalContext>()
       .AddTransient<CrudPacienteView>()
       .AddTransient<CrudMedicoView>()
       .AddTransient<CrudConsultaView>()
