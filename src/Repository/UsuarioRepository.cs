@@ -1,36 +1,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using ConsoleEFCore.Models;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace ConsoleEFCore.Repository
 {
   public class UsuarioRepository : IRepository<Usuario>
   {
-    private HospitalContext _Context;
+    private UserManager<Usuario> _userManager;
 
-    public UsuarioRepository(HospitalContext context) => _Context = context;
+    public UsuarioRepository(UserManager<Usuario> userManager) => _userManager = userManager;
 
-    public IList<Usuario> GetAll() => _Context.Usuarios.ToList();
+    public IList<Usuario> GetAll() => _userManager.Users.ToList<Usuario>();
 
-    public void Salvar(Usuario entidade)
-    {
-      _Context.Add(entidade);
-      _Context.SaveChanges();
-    }
+    public void Salvar(Usuario entidade) => _userManager.CreateAsync(entidade).Wait();
 
-    public void Editar(Usuario entidade)
-    {
-      _Context.Update(entidade);
-      _Context.SaveChanges();
-    }
+    public void Editar(Usuario entidade) => _userManager.UpdateAsync(entidade).Wait();
 
-    public void Excluir(object chave)
-    {
-      _Context.Usuarios.Remove(GetById(chave));
-      _Context.SaveChanges();
-    }
+    public void Excluir(object chave) => _userManager.DeleteAsync(GetById(chave)).Wait();
 
-    public Usuario GetById(object chave) => _Context.Find<Usuario>(chave);
+    public Usuario GetById(object chave) => _userManager.FindByIdAsync((string)chave).Result;
   }
 }

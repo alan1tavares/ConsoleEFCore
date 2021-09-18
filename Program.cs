@@ -2,6 +2,7 @@
 using ConsoleEFCore.Models;
 using ConsoleEFCore.Presentation;
 using ConsoleEFCore.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
   
@@ -31,7 +32,9 @@ namespace ConsoleEFCore
       .AddTransient<IRepository<Medico>, MedicoRepository>()
       .AddTransient<IRepository<Consulta>, ConsultaRepository>()
       .AddTransient<IRepository<Enfermaria>, EnfermariaRepository>()
-      .AddTransient<IRepository<Usuario>, UsuarioRepository>();
+      .AddTransient<IRepository<Usuario>, UsuarioRepository>()
+      .AddIdentity<Usuario, IdentityRole>()
+      .AddEntityFrameworkStores<HospitalContext>();
 
     private static void Start(IServiceProvider provider)
     {

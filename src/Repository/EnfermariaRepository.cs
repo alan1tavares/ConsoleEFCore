@@ -7,34 +7,34 @@ namespace ConsoleEFCore.Repository
 {
   public class EnfermariaRepository : IRepository<Enfermaria>
   {
-    private HospitalContext _Context;
+    private HospitalContext _context;
 
-    public EnfermariaRepository(HospitalContext context) => _Context = context;
+    public EnfermariaRepository(HospitalContext context) => _context = context;
 
     public IList<Enfermaria> GetAll() =>
-      _Context.Enfermarias
+      _context.Enfermarias
         .Include(enfermaria => enfermaria.EnfermariaMedico)
         .ThenInclude(enfermariaMedico => enfermariaMedico.Medico)
         .ToList();
 
     public void Salvar(Enfermaria entidade)
     {
-      _Context.Add(entidade);
-      _Context.SaveChanges();
+      _context.Add(entidade);
+      _context.SaveChanges();
     }
 
     public void Editar(Enfermaria entidade)
     {
-      _Context.Update(entidade);
-      _Context.SaveChanges();
+      _context.Update(entidade);
+      _context.SaveChanges();
     }
 
     public void Excluir(object chave)
     {
-      _Context.Remove(GetById(chave));
-      _Context.SaveChanges();
+      _context.Remove(GetById(chave));
+      _context.SaveChanges();
     }
     
-    public Enfermaria GetById(object chave) => _Context.Find<Enfermaria>(chave);
+    public Enfermaria GetById(object chave) => _context.Find<Enfermaria>(chave);
   }
 }
